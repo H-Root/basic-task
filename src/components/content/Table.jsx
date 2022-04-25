@@ -11,11 +11,10 @@ const Table = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [userSelection, setUserSelection] = useState(0);
 
-  console.log(userSelection);
-
   const headerElements = (
     <ColumnGroup>
       <Row>
+        <Column selectionMode="multiple" colSpan={1} field="select"></Column>
         <Column header="Name" field="name" colSpan={1}></Column>
         <Column header="Address" field="address" colSpan={1}></Column>
         <Column header="Number" field="number" colSpan={1}></Column>
@@ -37,9 +36,14 @@ const Table = () => {
       scrollDirection="vertical"
       selection={userSelection}
       onSelectionChange={(e) => setUserSelection(e.value)}
+      cellSelection
     >
-      <Column selectionMode="multiple" />
-
+      <Column
+        selectionMode="multiple"
+        style={{ minWidth: "fit-content" }}
+        colSpan={1}
+        field="select"
+      />
       <Column
         style={{ minWidth: "fit-content" }}
         colSpan={1}
