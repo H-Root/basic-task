@@ -1,0 +1,10 @@
+.flex {
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.btn {
+  width: fit-content;
+}
