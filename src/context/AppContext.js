@@ -46,7 +46,7 @@ const AppContextProvider = ({ children }) => {
       return 0;
     } else {
       axios
-        .get("https://randomuser.me/api/?results=10")
+        .get("https://randomuser.me/api/?results=20")
         .then((data) => {
           const temp = data.data.results.map((user) => {
             return {
@@ -64,6 +64,11 @@ const AppContextProvider = ({ children }) => {
         .catch(() => {
           setAccesable(false);
           setIsLoading(false);
+          toastRef.current.show({
+            severity: "error",
+            summary: "Error",
+            detail: "Failed Fetching Data From API",
+          });
         });
     }
   }, []);

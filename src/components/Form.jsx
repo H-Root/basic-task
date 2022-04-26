@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useContext } from "react";
-import { appContext, ACTION_LIST } from "../../context/AppContext";
+import { appContext, ACTION_LIST } from "../context/AppContext";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useId } from "react";

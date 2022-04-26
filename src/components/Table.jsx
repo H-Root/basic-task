@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { appContext } from "../../context/AppContext";
+import { appContext } from "../context/AppContext";
 
 import { ColumnGroup } from "primereact/columngroup";
 import { Column } from "primereact/column";

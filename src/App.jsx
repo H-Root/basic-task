@@ -5,9 +5,9 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Toast } from "primereact/toast";
-import Table from "./components/content/Table";
+import Table from "./components/Table";
 import styles from "./app.module.css";
-import Form from "./components/content/Form";
+import Form from "./components/Form";
 
 const App = () => {
   const [showModal, setShowModal] = useState(false);
@@ -19,6 +19,20 @@ const App = () => {
     accesable,
     setUserSelect,
   } = useContext(appContext);
+
+  const handleDelete = () => {
+    userSelect.length > 0
+      ? dispatch({
+          type: ACTION_LIST.DELETE_USER,
+          payload: userSelect,
+        })
+      : toastRef.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Please Select Users",
+        });
+    setUserSelect([]);
+  };
 
   return (
     <>
@@ -46,19 +60,7 @@ const App = () => {
               label="Delete User"
               className="p-button-danger"
               icon="pi pi-trash"
-              onClick={() => {
-                userSelect.length > 0
-                  ? dispatch({
-                      type: ACTION_LIST.DELETE_USER,
-                      payload: userSelect,
-                    })
-                  : toastRef.current.show({
-                      severity: "error",
-                      summary: "Error",
-                      detail: "Please Select Users",
-                    });
-                setUserSelect([]);
-              }}
+              onClick={handleDelete}
             />
           </div>
         </div>
