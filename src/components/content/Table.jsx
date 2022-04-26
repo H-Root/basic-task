@@ -1,15 +1,22 @@
-import { ColumnGroup } from "primereact/columngroup";
-import { Column } from "primereact/column";
-import { Row } from "primereact/row";
 import { useContext, useState } from "react";
 import { appContext } from "../../context/AppContext";
 
+import { ColumnGroup } from "primereact/columngroup";
+import { Column } from "primereact/column";
+import { Row } from "primereact/row";
 import { DataTable } from "primereact/datatable";
+import { useEffect } from "react";
 
 const Table = () => {
-  const { state } = useContext(appContext);
+  const { state, setUserSelect } = useContext(appContext);
   const [pageNumber, setPageNumber] = useState(1);
-  const [userSelection, setUserSelection] = useState(0);
+  const [userSelection, setUserSelection] = useState([]);
+
+  useEffect(() => {
+    const temp = userSelection.map((user) => user.id);
+    setUserSelect(temp);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userSelection]);
 
   const headerElements = (
     <ColumnGroup>
