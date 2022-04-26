@@ -11,7 +11,14 @@ import Form from "./components/content/Form";
 
 const App = () => {
   const [showModal, setShowModal] = useState(false);
-  const { toastRef, userSelect, dispatch } = useContext(appContext);
+  const {
+    toastRef,
+    userSelect,
+    dispatch,
+    isLoading,
+    accesable,
+    setUserSelect,
+  } = useContext(appContext);
 
   return (
     <>
@@ -24,18 +31,34 @@ const App = () => {
           <Table />
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Button
+              disabled={!accesable}
+              loading={isLoading}
+              loadingIcon="pi pi-spin pi-spinner"
               className={styles.btn}
               label="Add user"
               onClick={() => setShowModal(true)}
               icon="pi pi-plus"
             />
             <Button
+              disabled={!accesable}
+              loading={isLoading}
+              loadingIcon="pi pi-spin pi-spinner"
               label="Delete User"
               className="p-button-danger"
               icon="pi pi-trash"
-              onClick={() =>
-                dispatch({ type: ACTION_LIST.DELETE_USER, payload: userSelect })
-              }
+              onClick={() => {
+                userSelect.length > 0
+                  ? dispatch({
+                      type: ACTION_LIST.DELETE_USER,
+                      payload: userSelect,
+                    })
+                  : toastRef.current.show({
+                      severity: "error",
+                      summary: "Error",
+                      detail: "Please Select Users",
+                    });
+                setUserSelect([]);
+              }}
             />
           </div>
         </div>

@@ -7,6 +7,9 @@
 
 ## Extras
 
-- [] Adding CRUD Operations
-- [] Adding a Toast notification
-- [] Loading state for loading 🤣
+- [-] Adding CRUD Operations
+  - [x] Add Already Exist
+  - [x] Delete
+  - [] Edit
+- [x] Adding a Toast notification
+- [x] Loading state for loading 🤣

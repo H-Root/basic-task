@@ -16,7 +16,6 @@ const appReducers = (state, action) => {
       action.payload.forEach((select) => {
         tempData = tempData.filter((user) => user.id !== select);
       });
-      console.log(tempData);
       return { ...state, users: tempData };
     case ACTION_LIST.UPDATE_USERS_LIST:
       return { users: [...action.payload] };
@@ -30,28 +29,56 @@ export const appContext = createContext();
 const AppContextProvider = ({ children }) => {
   const toastRef = useRef();
   const [userSelect, setUserSelect] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [accesable, setAccesable] = useState(false);
   const initialState = [];
 
   const [state, dispatch] = useReducer(appReducers, initialState);
 
   useEffect(() => {
-    axios.get("https://randomuser.me/api/?results=10").then((data) => {
-      const temp = data.data.results.map((user) => {
-        return {
-          name: `${user.name.first} ${user.name.last}`,
-          address: user.location.city,
-          email: user.email,
-          number: user.cell,
-          id: user.login.uuid,
-        };
+    if (!navigator.onLine) {
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Please Check Your Netowrk Connection",
       });
-      dispatch({ type: ACTION_LIST.UPDATE_USERS_LIST, payload: temp });
-    });
+      setIsLoading(false);
+      return 0;
+    } else {
+      axios
+        .get("https://randomuser.me/api/?results=10")
+        .then((data) => {
+          const temp = data.data.results.map((user) => {
+            return {
+              name: `${user.name.first} ${user.name.last}`,
+              address: user.location.city,
+              email: user.email,
+              number: user.cell,
+              id: user.login.uuid,
+            };
+          });
+          dispatch({ type: ACTION_LIST.UPDATE_USERS_LIST, payload: temp });
+          setIsLoading(false);
+          setAccesable(true);
+        })
+        .catch(() => {
+          setAccesable(false);
+          setIsLoading(false);
+        });
+    }
   }, []);
 
   return (
     <appContext.Provider
-      value={{ state, dispatch, toastRef, setUserSelect, userSelect }}
+      value={{
+        state,
+        dispatch,
+        toastRef,
+        setUserSelect,
+        userSelect,
+        isLoading,
+        accesable,
+      }}
     >
       {children}
     </appContext.Provider>

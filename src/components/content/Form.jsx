@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { appContext, ACTION_LIST } from "../../context/AppContext";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { useId } from "react";
 
 const Form = ({ hideOnClick }) => {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ const Form = ({ hideOnClick }) => {
     address: "",
     number: "",
   });
-  const { dispatch } = useContext(appContext);
+  const { dispatch, toastRef } = useContext(appContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,6 +27,19 @@ const Form = ({ hideOnClick }) => {
     ) {
       dispatch({ type: ACTION_LIST.ADD_USER, payload: { formData } });
       hideOnClick(false);
+      toastRef.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Added A New User Succesfully",
+        id: useId,
+      });
+    } else {
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Please fill all the form",
+      });
+      //! toast.current.show({severity: 'success', summary: 'Success Message', detail: 'Order submitted'});
     }
   };
 
