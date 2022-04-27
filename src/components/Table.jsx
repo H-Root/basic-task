@@ -39,10 +39,9 @@ const Table = () => {
       onPage={(e) => setPageNumber(e.first)}
       value={state.users}
       headerColumnGroup={headerElements}
-      scrollable
-      scrollDirection="vertical"
+      showGridlines
       selection={userSelection}
-      onSelectionChange={(e) => setUserSelection(e.value)}
+      responsiveLayout="scroll"
       cellSelection
     >
       <Column
